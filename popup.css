@@ -1,0 +1,179 @@
+/* Wrapper */
+#wrapper {
+  width: 500px;
+  margin: 0 auto;
+}
+
+/* Folders */
+.folder {
+  width: 100%;
+  padding: 12px;
+  cursor: pointer;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+#folders div {
+  position: relative;
+}
+
+.folder-delete-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.folder:hover {
+  background-color: #ddd;
+}
+
+.active {
+  background-color: #ddd !important;
+}
+
+/* Folder content */
+.folder-content {
+  background-color: #f9f9f9;
+  padding: 10px;
+  display: none;
+  border-radius: 5px;
+}
+
+/* Input group */
+.inputGroup {
+  display: flex;
+  border: 1px solid grey;
+  padding: 1px;
+}
+
+.inputGroup input {
+  flex-grow: 3;
+  border: none;
+  padding: 8px;
+}
+
+.inputGroup input:focus {
+  outline: none;
+}
+
+.inputGroup:focus-within {
+  outline: 1px solid blue;
+}
+
+.inputGroup button {
+  border: 1px solid blue;
+  background: blue;
+  color: white;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* Folder items */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 5px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Folder item link */
+/* Folder item link */
+.folderItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.folderItem:hover {
+  background-color: #ddd;
+}
+.folderLink {
+  text-decoration: none;
+  flex-grow: 1;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+/* Folder item content */
+.folderItemContent {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Description */
+.description {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Link */
+.link {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Icons */
+.icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.icon:hover {
+  color: rgb(255, 0, 0);
+  opacity: 0.8;
+}
+
+.btn-folder-delete {
+  position: absolute;
+  top: 12px;
+  right: 21px;
+}
+
+.folder:has(.btn-folder-delete:hover),
+.folderItem:has(.btn-delete:hover),
+.folder:has(.btn-folder-delete:hover) + .folder-content .folderItem {
+  background-color: red !important;
+  animation: shake 0.9s infinite alternate ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-1px) rotate(-1deg);
+  }
+  50% {
+    transform: translateX(1px) rotate(1deg);
+  }
+  75% {
+    transform: translateX(-1px) rotate(-1deg);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

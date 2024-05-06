@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "LinkStash",
+    "description": "Organize your browsing with LinkStash! Create folders, save links, and add descriptions to stay organized and never lose track of important websites again.",
+    "version": "1.0",
+    "action": {
+        "default_popup": "./popup.html"
+    },
+    "background": {
+        "service_worker": "./background.js"
+    },
+    "permissions": [
+        "storage"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ]
+}
