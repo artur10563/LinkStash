@@ -4,6 +4,10 @@
   margin: 0 auto;
 }
 
+.hidden {
+  display: none !important;
+}
+
 /* Folders */
 .folder {
   width: 100%;
@@ -44,6 +48,10 @@
   padding: 10px;
   display: none;
   border-radius: 5px;
+}
+
+.folder.active + .folder-content {
+    display: block;
 }
 
 /* Input group */
