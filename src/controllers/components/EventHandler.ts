@@ -1,5 +1,6 @@
 import { Folder, FolderItem } from "../../models/Folder.js";
 import { FolderService } from "../../services/folder-service.js";
+import { debounce } from "../../utils/Debounce.js";
 import { InputValidator } from "../../utils/InputValidator.js";
 import { DOMElements } from "./DOMElements.js";
 import { FolderRendered } from "./FolderRenderer.js";
@@ -23,32 +24,56 @@ export class EventHandler {
             await this.handleAddFolderClick()
         );
 
-        this.domElements.searchInput.addEventListener("input", () => this.filterItems(this.domElements.searchInput.value));
+        this.domElements.searchInput.addEventListener("input", () => this.debouncedFilterItems(this.domElements.searchInput.value));
     }
 
+    //#region Filter items
+    private debouncedFilterItems = debounce((filterText: string) => {
+        this.filterItems(filterText);
+    }, 500, this);
 
-
-    //#region Private Methods
-    //TODO: currently hides only items. Make it hide empty folders as well
     private filterItems(filterText: string): void {
 
-        let recalcTimer;
-        clearTimeout(recalcTimer);
+        filterText = filterText.toLowerCase();
 
-        recalcTimer = setTimeout(() => {
-            const items = document.querySelectorAll(".folderItem");
-            items.forEach((item) => {
+        const htmlFolders = this.domElements.GetAllHtmlFolder();
+
+        htmlFolders.forEach((htmlFolder) => {
+
+            htmlFolder.resetVisibility();
+
+            //Search by folder name
+            const foundByFolderName = htmlFolder.folderButton.textContent.toLowerCase().includes(filterText);
+            const folderButton = htmlFolder.folderButton;
+
+            htmlFolder.folderDiv.classList.toggle("hidden", !foundByFolderName);
+            if (foundByFolderName) return;
+
+            let anyItemMatches = false;
+
+            // Search by items
+            htmlFolder.folderItems.forEach((item) => {
                 const description = (item.querySelector(".description") as HTMLElement).textContent.toLowerCase();
                 const link = (item.querySelector(".link") as HTMLElement).textContent.toLowerCase();
-                if (description.includes(filterText) || link.includes(filterText)) {
-                    item.classList.remove("hidden");
-                } else {
-                    item.classList.add("hidden");
-                }
-            });
-        }, 500);
+
+                console.log("Description:", description, "Link:", link, "Filter Text:", filterText);
+                const matchesLinkOrDescription = description.includes(filterText) || link.includes(filterText);
+
+                item.classList.toggle("hidden", !matchesLinkOrDescription);
+
+                if (!anyItemMatches) anyItemMatches = matchesLinkOrDescription;
+            })
+
+            htmlFolder.folderDiv.classList.toggle("hidden", !anyItemMatches);
+            folderButton.classList.toggle("hidden", !anyItemMatches)
+
+        });
     }
 
+    //#endregion
+
+
+    //#region Folder buttons click handlers
 
     private async handleFoldersContainerClick(event: MouseEvent): Promise<void> {
         const target = event.target as HTMLElement;

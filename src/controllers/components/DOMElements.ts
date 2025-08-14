@@ -1,4 +1,5 @@
 import { Folder } from "../../models/Folder.js";
+import { HTMLFolder } from "../../models/HtmlFolder.js";
 
 export class DOMElements {
 
@@ -16,8 +17,17 @@ export class DOMElements {
     }
 
 
+    public GetAllHtmlFolder(): HTMLFolder[] {
+        const allFoldersWithItems = this.foldersDiv.children as HTMLCollectionOf<HTMLDivElement>;
 
-    getElementById<T extends HTMLElement>(id: string): T {
+        const htmlFolders = Array.from(allFoldersWithItems).map((folderDiv) => {
+            return HTMLFolder.fromContainer(folderDiv);
+        });
+
+        return htmlFolders;
+    }
+
+    public getElementById<T extends HTMLElement>(id: string): T {
         const element = document.getElementById(id);
         if (!element) {
             throw new Error(`Element with id "${id}" not found`);
